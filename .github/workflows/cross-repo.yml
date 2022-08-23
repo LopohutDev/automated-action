@@ -1,5 +1,7 @@
 name: Cross Repo Pushing
-on: [push]
+on:
+  push:
+    branches: [main]
 jobs:
   Test-action:
     runs-on: ubuntu-latest
