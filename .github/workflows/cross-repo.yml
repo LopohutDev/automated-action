@@ -51,10 +51,10 @@ jobs:
         uses: LopohutDev/create-pull-request@master
         with:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
-          head: release/v ${{ steps.semvers.outputs.patch }}
+          head: release/v${{ steps.semvers.outputs.patch }}
           repository: LopohutDev/automated-action2
           base: main
-          title: v ${{ steps.semvers.outputs.patch }} into main
+          title: v${{ steps.semvers.outputs.patch }} into main
           reviewers: ${{ github.event.issue.user.login }}
           body: |
             Hi!
