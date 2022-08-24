@@ -23,7 +23,7 @@ jobs:
         id: bump_version
         uses: LopohutDev/increment-semantic-version@master
         with:
-          current-version: ${{ steps.bump_version.outputs.current-version }}
+          current-version: ${{ env.RELEASE_VERSION }}
           version-fragment: "feature"
       - name: Create release branch
         run: git checkout -b release/v${{ steps.bump_version.outputs.next-version }}
