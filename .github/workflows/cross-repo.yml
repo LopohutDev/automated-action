@@ -13,5 +13,11 @@ jobs:
           repository: LopohutDev/automated-action2
           ref: "main"
           token: ${{ secrets.GH_TOKEN }}
-      - name: Create release branch
-        run: echo ${{github}}
+      - name: Bump release version
+        id: bump_version
+        uses: christian-draeger/increment-semantic-version@1.0.2
+        with:
+          current-version: "2.11.7-alpha3"
+          version-fragment: "feature"
+      - name: Do something with your bumped release version
+        run: echo ${{ steps.bump_version.outputs.next-version }}
