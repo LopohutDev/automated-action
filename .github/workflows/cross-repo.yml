@@ -7,13 +7,7 @@ jobs:
   Create-Release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: LopohutDev/checkout@main
-        with:
-          repository: LopohutDev/automated-action2
-          ref: "main"
-          token: ${{ secrets.GH_TOKEN }}
-          fetch-depth: 0
+      - uses: LopohutDev/checkout@main
       - name: "Get Previous tag"
         id: previoustag
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
@@ -31,6 +25,15 @@ jobs:
           title: ${{ steps.semvers.outputs.patch }}
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
+
+      - name: Checkout Code
+        uses: LopohutDev/checkout@main
+        with:
+          repository: LopohutDev/automated-action2
+          ref: "main"
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
       - name: Create release branch
         run: git checkout -b release/v${{ steps.semvers.outputs.patch }}
       - name: Initialize mandatory git config
