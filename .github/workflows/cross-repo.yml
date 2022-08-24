@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get RELEASE version
+        uses: LopohutDev/checkout@main
         run: |
           git describe --tags --abbrev=0
       - name: Test
