@@ -32,30 +32,29 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
       - name: Create release branch
-        run: git checkout -b release/v${{ steps.bump_version.outputs.next-version }}
+        run: git checkout -b release/v$ ${{ steps.semvers.outputs.patch }}
       - name: Initialize mandatory git config
         run: |
           git config user.name "LopohutDev"
           git config user.email noreply@github.com
-          git tag -a v${{ steps.bump_version.outputs.next-version }} -m "VERSION=v${{ steps.bump_version.outputs.next-version }}"
       - name: Change version number and name
-        run: printf 'ext.version_code =${{ steps.bump_version.outputs.next-version }}\next.version_name = "${{ steps.bump_version.outputs.next-version }}"\n' > app_versions.gradle
+        run: printf 'ext.version_code = ${{ steps.semvers.outputs.patch }}\next.version_name = " ${{ steps.semvers.outputs.patch }}"\n' > app_versions.gradle
       - name: Commit changelog and manifest files
         id: make-commit
         run: |
           git add app_versions.gradle
-          git commit --message "Prepare release ${{ steps.bump_version.outputs.next-version }}"
+          git commit --message "Prepare release ${{ steps.semvers.outputs.patch }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Push new branch
-        run: git push origin release/v${{ steps.bump_version.outputs.next-version }}
+        run: git push origin release/v ${{ steps.semvers.outputs.patch }}
       - name: Create pull request into main
         uses: LopohutDev/create-pull-request@master
         with:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
-          head: release/v${{ steps.bump_version.outputs.next-version }}
+          head: release/v ${{ steps.semvers.outputs.patch }}
           repository: LopohutDev/automated-action2
           base: main
-          title: v${{ steps.bump_version.outputs.next-version }} into main
+          title: v ${{ steps.semvers.outputs.patch }} into main
           reviewers: ${{ github.event.issue.user.login }}
           body: |
             Hi!
