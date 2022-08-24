@@ -9,10 +9,9 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "::set-output name=date::$(date + '%m-%d-%YT%r')"
+        run: echo "::set-output name=date::$(date + '%Y-%m-%dT%r')"
       - name: date
         run: echo ${{steps.date.outputs.date}}
-
       - name: Checkout Code
         uses: LopohutDev/checkout@main
         with:
