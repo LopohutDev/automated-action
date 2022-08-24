@@ -9,10 +9,13 @@ jobs:
     steps:
       - name: Get RELEASE version
         uses: LopohutDev/checkout@main
-        run: |
-          git describe --tags --abbrev=0
+        with:
+          repository: LopohutDev/automated-action2
+          ref: "main"
+          token: ${{ secrets.GH_TOKEN }}
       - name: Test
         run: |
+          git describe --tags --abbrev=0
           echo $RELEASE_VERSION
           echo ${{ env.RELEASE_VERSION }}
       # - name: Checkout Code
