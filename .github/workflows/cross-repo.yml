@@ -13,3 +13,5 @@ jobs:
           repository: LopohutDev/automated-action2
           ref: "main"
           token: ${{ secrets.GH_TOKEN }}
+      - name: Create release branch
+        run: echo ${{github}}
