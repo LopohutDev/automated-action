@@ -28,7 +28,7 @@ jobs:
       - name: Change version number and name
         run: printf 'ext.version_code =${{ steps.bump_version.outputs.next-version }}\next.version_name = "${{ steps.bump_version.outputs.next-version }}"\n' > app_versions.gradle
       - name: Update Changelog
-        uses: thomaseizinger/keep-a-changelog-new-release@master
+        uses: thomaseizinger/keep-a-changelog-new-release@v1
         with:
           version: ${{ steps.bump_version.outputs.next-version }}
       - name: Commit changelog and manifest files
