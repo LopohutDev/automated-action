@@ -32,7 +32,7 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
       - name: Create release branch
-        run: git checkout -b release/v$ ${{ steps.semvers.outputs.patch }}
+        run: git checkout -b release/v${{ steps.semvers.outputs.patch }}
       - name: Initialize mandatory git config
         run: |
           git config user.name "LopohutDev"
