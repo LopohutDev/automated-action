@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Get RELEASE version
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+      - name: Test
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
       # - name: Checkout Code
       #   uses: LopohutDev/checkout@main
       #   with:
