@@ -19,19 +19,18 @@ jobs:
         uses: "WyriHaximus/github-action-get-previous-tag@v1"
         with:
           fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
-      - name: Bump release version
-        id: bump_version
-        uses: LopohutDev/increment-semantic-version@master
+      - name: "Get next minor version"
+        id: semvers
+        uses: "WyriHaximus/github-action-next-semvers@v1"
         with:
-          current-version: ${{ steps.previoustag.outputs.tag }}
-          version-fragment: "feature"
+          version: ${{ steps.previoustag.outputs.tag }}
       - name: "Create new milestone"
         id: createmilestone
         uses: "WyriHaximus/github-action-create-milestone@v1"
         with:
-          title: ${{ steps.bump_version.outputs.next-version }}
+          title: ${{ steps.semvers.outputs.patch }}
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
       - name: Create release branch
         run: git checkout -b release/v${{ steps.bump_version.outputs.next-version }}
       - name: Initialize mandatory git config
