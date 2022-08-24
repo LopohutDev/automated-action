@@ -10,9 +10,7 @@ jobs:
       - name: Get RELEASE version
         uses: LopohutDev/checkout@main
         with:
-          repository: LopohutDev/automated-action2
-          ref: "main"
-          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
       - name: Test
         run: |
           git describe --tags --abbrev=0
