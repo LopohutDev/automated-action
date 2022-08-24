@@ -7,59 +7,48 @@ jobs:
   Create-Release:
     runs-on: ubuntu-latest
     steps:
-      - uses: LopohutDev/checkout@main
-      - name: "Get Previous tag"
-        id: previoustag
-        uses: "WyriHaximus/github-action-get-previous-tag@v1"
-        with:
-          fallback: 1.0.0 # Optional fallback tag to use when no tag can be found
-      - name: "Get next minor version"
-        id: semvers
-        uses: "WyriHaximus/github-action-next-semvers@v1"
-        with:
-          version: ${{ steps.previoustag.outputs.tag }}
-      - name: "Create new milestone"
-        id: createmilestone
-        uses: "WyriHaximus/github-action-create-milestone@v1"
-        with:
-          title: ${{ steps.semvers.outputs.patch }}
-        env:
-          GITHUB_TOKEN: "${{ secrets.GH_TOKEN }}"
-
-      - name: Checkout Code
-        uses: LopohutDev/checkout@main
-        with:
-          repository: LopohutDev/automated-action2
-          ref: "main"
-          token: ${{ secrets.GH_TOKEN }}
-          fetch-depth: 0
-
-      - name: Create release branch
-        run: git checkout -b release/v${{ steps.semvers.outputs.patch }}
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "LopohutDev"
-          git config user.email noreply@github.com
-      - name: Change version number and name
-        run: printf 'ext.version_code = ${{ steps.semvers.outputs.patch }}\next.version_name = " ${{ steps.semvers.outputs.patch }}"\n' > app_versions.gradle
-      - name: Commit changelog and manifest files
-        id: make-commit
-        run: |
-          git add app_versions.gradle
-          git commit --message "Prepare release ${{ steps.semvers.outputs.patch }}"
-          echo "::set-output name=commit::$(git rev-parse HEAD)"
-      - name: Push new branch
-        run: git push origin release/v${{ steps.semvers.outputs.patch }}
-      - name: Create pull request into main
-        uses: LopohutDev/create-pull-request@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
-          head: release/v${{ steps.semvers.outputs.patch }}
-          repository: LopohutDev/automated-action2
-          base: main
-          title: v${{ steps.semvers.outputs.patch }} into main
-          reviewers: ${{ github.event.issue.user.login }}
-          body: |
-            Hi!
-            This PR was created in response workflow running.
-            I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d +%T')"
+      # - name: Checkout Code
+      #   uses: LopohutDev/checkout@main
+      #   with:
+      #     repository: LopohutDev/automated-action2
+      #     ref: "main"
+      #     token: ${{ secrets.GH_TOKEN }}
+      # - name: Bump release version
+      #   id: bump_version
+      #   uses: LopohutDev/increment-semantic-version@master
+      #   with:
+      #     current-version: ${{ steps.bump_version.outputs.current-version }}
+      #     version-fragment: "feature"
+      # - name: Create release branch
+      #   run: git checkout -b release/v${{ steps.bump_version.outputs.next-version }}
+      # - name: Initialize mandatory git config
+      #   run: |
+      #     git config user.name "LopohutDev"
+      #     git config user.email noreply@github.com
+      #     git tag -a v${{ steps.bump_version.outputs.next-version }} -m "VERSION=v${{ steps.bump_version.outputs.next-version }}"
+      # - name: Change version number and name
+      #   run: printf 'ext.version_code =${{ steps.bump_version.outputs.next-version }}\next.version_name = "${{ steps.bump_version.outputs.next-version }}"\n' > app_versions.gradle
+      # - name: Commit changelog and manifest files
+      #   id: make-commit
+      #   run: |
+      #     git add app_versions.gradle
+      #     git commit --message "Prepare release ${{ steps.bump_version.outputs.next-version }}"
+      #     echo "::set-output name=commit::$(git rev-parse HEAD)"
+      # - name: Push new branch
+      #   run: git push origin release/v${{ steps.bump_version.outputs.next-version }}
+      # - name: Create pull request into main
+      #   uses: LopohutDev/create-pull-request@master
+      #   with:
+      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
+      #     head: release/v${{ steps.bump_version.outputs.next-version }}
+      #     repository: LopohutDev/automated-action2
+      #     base: main
+      #     title: v${{ steps.bump_version.outputs.next-version }} into main
+      #     reviewers: ${{ github.event.issue.user.login }}
+      #     body: |
+      #       Hi!
+      #       This PR was created in response workflow running.
+      #       I've updated the version name and code commit: ${{ steps.make-commit.outputs.commit }}.
