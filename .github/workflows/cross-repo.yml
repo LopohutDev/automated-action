@@ -19,7 +19,7 @@ jobs:
           ref: "main"
           token: ${{ secrets.GH_TOKEN }}
       - name: Create release branch
-        run: git checkout -b release/datetime-${{steps.date.outputs.date}}
+        run: git checkout -b release/${{steps.date.outputs.date}}
       - name: Initialize mandatory git config
         run: |
           git config user.name "LopohutDev"
@@ -33,12 +33,12 @@ jobs:
           git commit --message "Prepare release ${{steps.date.outputs.date}}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Push new branch
-        run: git push origin release/datetime-${{steps.date.outputs.date}}
+        run: git push origin release/${{steps.date.outputs.date}}
       - name: Create pull request into main
         uses: LopohutDev/create-pull-request@master
         with:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
-          head: release/datetime-${{steps.date.outputs.date}}
+          head: release/${{steps.date.outputs.date}}
           repository: LopohutDev/automated-action2
           base: main
           title: ${{steps.date.outputs.date}} into main
