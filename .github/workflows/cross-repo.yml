@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: LopohutDev/checkout@v2
+        uses: LopohutDev/checkout@main
         with:
           repository: LopohutDev/automated-action2
           ref: "main"
