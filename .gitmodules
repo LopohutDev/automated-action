@@ -1,0 +1,3 @@
+[submodule "SDK"]
+	path = SDK
+	url = git@github.lopohutdev.com:LopohutDev/automated-file-action2.git

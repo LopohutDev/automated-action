@@ -15,8 +15,8 @@ jobs:
       - name: Checkout Code
         uses: LopohutDev/checkout@main
         with:
-          repository: LopohutDev/automated-action2
-          ref: "main"
+          repository: LopohutDev/automated-file-action2
+          ref: "master"
           token: ${{ secrets.GH_TOKEN }}
       - name: Create release branch
         run: git checkout -b release/${{steps.date.outputs.date}}
@@ -30,6 +30,7 @@ jobs:
         id: make-commit
         run: |
           git add app_versions.gradle
+          git add ./SDK --all
           git commit --message "Prepare release ${{steps.date.outputs.date}}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Push new branch
