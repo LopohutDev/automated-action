@@ -19,6 +19,7 @@ jobs:
           repository: LopohutDev/automated-file-action2
           ref: "master"
           token: ${{ secrets.GH_TOKEN }}
+          submodules: true
       - name: Create release branch
         run: git checkout -b release/${{steps.date.outputs.date}}
       - name: Initialize mandatory git config
