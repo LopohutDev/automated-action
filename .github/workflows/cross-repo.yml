@@ -21,10 +21,10 @@ jobs:
       - name: Create release branch
         run: git checkout -b release/${{steps.date.outputs.date}}
       - name: Initialize mandatory git config
+        working-directory: ./SDK
         run: |
           git config user.name "LopohutDev"
           git config user.email noreply@github.com
-          cd SDK
           git branch
       # - name: Change version number and name
       #   run: printf 'ext.version_date=${{steps.date.outputs.date}}' > app_versions.gradle
