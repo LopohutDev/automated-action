@@ -11,8 +11,8 @@ jobs:
         id: date
         run: echo "::set-output name=date::$(date +"%Y-%m-%dT%H-%M-%S%z")"
       - name: date
-        working-directory: ./SDK
         run: echo ${{steps.date.outputs.date}}
+        working-directory: ./SDK
       - name: Checkout Code
         uses: LopohutDev/checkout@main
         with:
