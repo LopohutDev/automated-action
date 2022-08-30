@@ -21,10 +21,10 @@ jobs:
           ref: "master"
           path: SDK
           token: ${{ secrets.GH_TOKEN }}
-      - name: Change Directory to SDK Folder
+      - name: Create release branch
         run: |
           cd SDK
-          ls
+          git checkout -b release/${{steps.date.outputs.date}}
       # - name: Create release branch
       #   run: ls
       # run: git checkout -b release/${{steps.date.outputs.date}}
