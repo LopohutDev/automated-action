@@ -38,7 +38,7 @@ jobs:
         id: make-commit
         run: |
           cd SDK
-          git add
+          git add .
           git commit --message "Prepare release ${{steps.date.outputs.date}}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Push new branch
