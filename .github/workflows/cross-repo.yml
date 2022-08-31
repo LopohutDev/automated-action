@@ -51,7 +51,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN  }}
           head: release/${{steps.date.outputs.date}}
           repository: LopohutDev/automated-file-action2
-          base: main
+          base: master
           title: ${{steps.date.outputs.date}} into main
           reviewers: ${{ github.event.issue.user.login }}
           body: |
